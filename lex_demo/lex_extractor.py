@@ -8,7 +8,7 @@ from lexnlp.extract.en.geoentities import load_entities_dict_by_path
 import nltk
 nltk.download('averaged_perceptron_tagger')
 nltk.download('wordnet')
-
+nltk.download('punkt')
 
 class Lex_extractor:
     
