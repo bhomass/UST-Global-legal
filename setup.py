@@ -113,6 +113,7 @@ setup(
 
     # Install any data files from packages.
     # The data files must be specified via the distutils’ MANIFEST.in file.
+    package_data={'conv-agent': ['data/*']},
     include_package_data=True,
 
     # List additional groups of dependencies here (e.g. development
