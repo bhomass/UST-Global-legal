@@ -37,7 +37,7 @@ class TextAnnotation:
         self.locale = locale
 
     def __repr__(self):
-	one_line_text = self.text.replace("\n","")
+        one_line_text = self.text.replace("\n","")
         s = f'{self.name} {one_line_text} [{self.record_type}] at ({self.coords[0]}..{self.coords[1]})'
         if self.locale:
             s += f', loc: {self.locale}'
