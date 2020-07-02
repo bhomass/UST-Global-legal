@@ -17,17 +17,28 @@ class Lex_extractor:
                         'data', '1000453_1997-11-14_CREDIT AGREEMENT.txt')
         
         with open(filepath, 'r') as doc_file:
-            self.text = doc_file.read()
+            text = doc_file.read()
+            
+        lines = text.split('\n')
+        curated_lines = []
+        i = 0
+        for line in lines:
+            if len(line) > 0:
+                curated_lines.append(line)
+#                 i += 1
+#                 if i > 200:
+#                     break
 
+        self.text = '\n'.join(curated_lines)
         FactExtractor.initialize()
         
     def parse_text(self):
         facts = FactExtractor.parse_text(self.text,
                                          FactExtractor.LANGUAGE_EN,
                                          ExtractorResultFormat.fmt_class,
-        #                                  extract_all=True,
-                                         exclude_types={AnnotationType.geoentity},
-        #                                  include_types={AnnotationType.act, AnnotationType.court})  
+                                         extract_all=False,
+#                                          exclude_types={AnnotationType.geoentity},
+#                                          include_types={AnnotationType.act, AnnotationType.court}  
                                          include_types={AnnotationType.money, AnnotationType.copyright, AnnotationType.percent,\
                                                         AnnotationType.regulation, AnnotationType.trademark, \
                                                         AnnotationType.laws, AnnotationType.act, AnnotationType.court
