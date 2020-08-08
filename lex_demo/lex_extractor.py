@@ -68,13 +68,13 @@ class Lex_extractor:
                 row_dict['type'] = str(key).replace('AnnotationType.', '')
                 extracted_text = value.get_extracted_text(self.text)
                 print('extracted text = {}'.format(extracted_text))
-                row_dict['extracted'] = extracted_text
+                row_dict['extracted'] = extracted_text.replace('\n', ' ')
                 value_dict = value.to_dictionary()
                 start = int(value_dict['attrs']['start'])
                 end = int(value_dict['attrs']['end'])
                 print('indices = {},{}'.format(start, end))
                 line = find_beginning_end(start, end, self.text)
-                row_dict['original'] = line
+                row_dict['original'] = line.replace('\n', ' ')
                 print('line = {}'.format(line))
                 rows.append(row_dict)
                 
