@@ -1,62 +1,36 @@
 import sys
 sys.path.insert(0,'..')
 
-import streamlit as st
+import flask
+from flask import request, jsonify
 
-import time
+app = flask.Flask(__name__)
+app.config["DEBUG"] = True
 
 import pandas as pd
-
 from lex_demo.lex_extractor import Lex_extractor
 
-start_time = time.time()
 extractor = Lex_extractor()
+
 ner_df = extractor.parse_text()
 
-print("--- %s seconds ---" % (time.time() - start_time))
-text = extractor.get_text()
+
+@app.route('/', methods=['GET'])
+def home():
+    return "<h1>Lex Predict</h1><p>This site is a prototype API for applying NER to Legal Documents.</p>"
 
 
 
-# st.text(text)
-st.text_area('corpus', value=text, height=600, max_chars=None, key=None)
-
-pd.set_option('max_colwidth', -1)
-
-ner_df
-
-
-# import flask
-# from flask import request, jsonify
-
-# app = flask.Flask(__name__)
-# app.config["DEBUG"] = True
-
-# from pdf_files.pdf_agent import PDF_agent
-
-# covid_agent = PDF_agent()
-# file = 'EBC External 06.10.20 FAQs.pdf'
-# covid_agent.read_file(file)
-# corpus = covid_agent.get_corpus()
-
-
-# @app.route('/', methods=['GET'])
-# def home():
-#     return "<h1>Covid Question Answer</h1><p>This site is a prototype API for QA agent which answers Covid questions.</p>"
-
-
-
-# @app.route('/api/v1/covid-agent/answer', methods=['PUT'])
-# def answer_question():
-#     query_parameters = request.args
-#     question = query_parameters['question']
-#     print('calling agent to answer')
-#     answer = covid_agent.answer(question)
-#     print('got answer: {}'.format(answer))
+@app.route('/api/v1/lex-predict/get_text', methods=['GET'])
+def get_text():
+    text = extractor.get_text()
     
-#     return jsonify({'answer':answer})
+    return jsonify({'text':text})
 
-    
-# app.run(host='0.0.0.0')
+@app.route('/api/v1/lex-predict/parse_text', methods=['GET'])
+def parse_text():    
+    return ner_df.to_json()
+
+app.run(host='0.0.0.0', port=9000)
 
 

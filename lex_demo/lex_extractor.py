@@ -33,7 +33,7 @@ class Lex_extractor:
 # #                     break
 
 #         self.text = '\n'.join(curated_lines)
-        self.text = text
+        self.text = text.replace('<TABLE>', '').replace('<S>', '').replace('<C>','').replace('<PAGE>','')
         FactExtractor.initialize()
         
     def parse_text(self):
@@ -137,7 +137,7 @@ def find_beginning_end(start, end, text):
     line = text[line_start + 2: line_end - 2]
 #     print('before sub line={}'.format(line))
     line = re.sub('[*]+', '', line)
-    line = line.replace('<TABLE>', '').replace('<S>', '').replace('<C>','').replace('<PAGE>','').strip()
+    line = line.strip()
 #     print('after sub line={}'.format(line))
     return line
 
